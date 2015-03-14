@@ -1,0 +1,231 @@
+"#modal":{
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	visible: false,
+	opacity: 0,
+},
+"#modalContent": {
+	left: '10%',
+	right: '10%',
+	height: Titanium.UI.SIZE,
+	backgroundColor:'white',
+	borderRadius: 8,
+	opacity: 1,
+	layout: 'vertical',
+	font: {
+		fontSize: 17
+	}
+},
+".slider": {
+	height: 40,
+	left: '10%',
+	right: '10%'
+},
+".sliderLabel": {
+	bottom: 15,
+	left: '10%',
+	right: '10%',
+	color: "#5D5D5D",
+	textAlign: 'center',
+	font: {
+		fontSize: 15
+	}
+},
+".title": {
+	top: '10',
+	left: '10%',
+	right: '10%',
+	bottom: 10,
+	color: "#5D5D5D",
+	height: Titanium.UI.SIZE,
+	textAlign: "center"
+},
+".inputLabel": {
+	top: '0',
+	left: '10%',
+	color: "#5D5D5D",
+	height: 30,
+	font: {
+		fontSize: 15
+	}
+},
+".inputView1": {
+	height: 45,
+},
+".inputView2": {
+	height: 75,
+},
+".inputContainer": {
+	borderRadius: 5,
+	borderColor: '#E6E6E6',
+	left: '10%',
+	right: '10%',
+	bottom: '5',
+	height: 40,
+},
+".input": {
+	color: '#616161',
+	font: {fontSize: 15},
+	height: 40,
+	left: 5,
+	right: 5,
+	textAlign: "center"
+},
+".lastInput": {
+	bottom: 10
+},
+".content":{
+	right: '10%',
+	color: "#5D5D5D",
+	font: {
+		fontSize: 13
+	},
+	bottom: 3
+},
+".secondary": {
+	left: '12%',
+	right: '10%',
+	color: "#5D5D5D",
+	font: {
+		fontSize: 13
+	},
+	bottom: 5
+},
+".primary": {
+	left: '10%',
+	color: "#5D5D5D",
+	font: {
+		fontSize: 14,
+		fontWeight: 'bold'
+	},
+	bottom: 3
+},
+".largeBlueButton": {
+	left: '10%',
+	right: '10%',
+	height: 40,
+	bottom: 10,
+	borderRadius: 5,
+	borderColor:'#102185',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+		},
+		endPoint: {
+			x: "0",
+			y: "40"
+		},
+		colors: [{ color: '#404D9D', offset: 0.5 }, { color: '#102185', offset: 0.5 } ]
+	}
+},
+".buttonLabel": {
+	font: {
+		fontSize: 20
+	}
+},
+".buttonSubLabel": {
+	textAlign: "center",
+	color: 'white',
+	font: {
+		fontSize: 11,
+		fontWeight: 'normal'
+	}
+},
+".buttonsView": {
+	layout: 'horizontal',
+	bottom: '10',
+	height: 40
+},
+".rightButton[platform=ios]": {
+	left: '2%',
+},
+".rightButton[platform=android]": {
+	left: '2%',
+},
+".rightButton": {
+	width: '39%',
+	right: '10%',
+	height: 40,
+	borderRadius: 5,
+	borderColor:'#4A4A4A',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+		},
+		endPoint: {
+			x: "0",
+			y: "40"
+		},
+		colors: [{ color: '#7D7D7D', offset: 0.5 }, { color: '#4A4A4A', offset: 0.5 } ]
+	}
+},
+".leftButton": {
+	width: '38.5%',
+	left: '10%',
+	height: 40,
+	borderRadius: 5,
+	borderColor:'#102185',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+				x: "0",
+				y: "0"
+		},
+		endPoint: {
+			x: "0",
+			y: "40"
+		},
+		colors: [{ color: '#404D9D', offset: 0.5 }, { color: '#102185', offset: 0.5 } ]
+	}
+},
+".largeAcquaButton": {
+	left: '10%',
+	right: '10%',
+	bottom: 5,
+	height: 40,
+	borderRadius: 5,
+	borderColor:'#007C5C',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: "0",
+		y: "40"
+	},
+	colors: [{ color: '#33967D', offset: 0.5 }, { color: '#007C5C', offset: 0.5 } ]
+	}
+},
+".extraLargeAcquaButton": {
+	left: '10%',
+	right: '10%',
+	bottom: 5,
+	height: 50,
+	borderRadius: 5,
+	borderColor:'#007C5C',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: "0",
+		y: "50"
+	},
+	colors: [{ color: '#33967D', offset: 0.5 }, { color: '#007C5C', offset: 0.5 } ]
+	},
+	layout: 'vertical'
+},
+".buttonLabel": {
+	font: {
+		fontSize: 20
+	}
+}
+

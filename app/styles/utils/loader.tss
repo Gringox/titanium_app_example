@@ -1,0 +1,9 @@
+"#loader":{
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	visible: false,
+	opacity: 0,
+},
+"#opacityBackground": {
+	opacity: 0.85
+}

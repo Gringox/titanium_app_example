@@ -1,0 +1,557 @@
+/*******************************************
+ **                General                **
+ *******************************************/
+"#background": {
+	bottom: 0,
+	left: 0,
+	width: '80%',
+	image: "/images/background.png",
+},
+
+"#scrollContainer": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	scrollType: "vertical",
+	top: 0,
+},
+"#contentView": {
+	width: Ti.UI.FILL,
+	height: Ti.UI.SIZE,
+	layout: 'vertical',
+	top: 0,
+},
+".whiteContainer": {
+	opacity: 1,
+	backgroundColor: "white",
+	layout: "vertical",
+	left: '10%',
+	right: '10%',
+	top: '1%',
+	borderRadius: 5,
+	height: Ti.UI.SIZE,
+},
+".infoGroup": {
+	height: Titanium.UI.SIZE,
+	width: Titanium.UI.FILL,
+},
+".static": {
+	height: Titanium.UI.FILL,
+	width: Titanium.UI.FILL,
+},
+
+/*******************************************
+ **            Modal Background           **
+ *******************************************/
+"#opacityBackground":{
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL,
+	backgroundColor: "#000",
+	opacity: 0.3,
+},
+
+/*******************************************
+ **                TabGroup               **
+ *******************************************/
+".tabGroup": {
+	width: Ti.UI.FILL,
+	height: 40,
+},
+".tabItem": {
+	width: '50%',
+	height: Ti.UI.FILL,
+},
+"#leftTabItem": {
+	left:0
+},
+"#rightTabItem": {
+	right:0
+},
+".unselectedTabItem": {
+	backgroundGradient : {
+		type: "linear",
+		startPoint: {x: 0, y: 0},
+		endPoint: {x: 0, y: 40},
+		colors: [
+			{ color: '#bde3dc', offset: 0.0 },
+			{ color: '#bde3dc', offset: 0.8 }, 
+			{ color: '#737779', offset: 1.0 }
+		]
+	}
+},
+".selectedTabItem":{
+	backgroundColor: "#e6f6f3"
+},
+"#tabViewContainer": {
+	width: Alloy.Globals.platformWidth,
+	height: Titanium.UI.FILL,
+},
+".tabView": {
+	height: Titanium.UI.FILL,
+	backgroundColor: "#e6f6f3",
+},
+"#rightTabView": {
+	visible : false,
+},
+/*******************************************
+ **          Fonts & Labels               **
+ *******************************************/
+"Label":{
+	font: {
+		fontSize: 17,
+	}
+},
+".boldFont":{
+	font: {
+		fontSize: 18,
+		fontWeight: "bold"
+	}
+},
+".grayFont": {
+	color: "#5D5D5D"
+},
+".buttonLabel": {
+	color: '#fff',
+	font:{
+		fontSize: 22,
+		fontWeight: "bold"
+	},
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	touchEnabled: false
+},
+".selectedTabLabel": {
+	color: "#00a88a",
+	font: {
+		fontSize:17,
+		fontWeight: "bold"
+	}
+},
+".unselectedTabLabel": {
+	color: "#707070",
+	font: {
+		fontSize:17,
+		fontWeight: "bold"
+	}
+},
+".explanationLabel": {
+	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
+	backgroundColor: "#E6E6E6",
+	height: Ti.UI.SIZE,
+	width: Ti.UI.FILL,
+	font: {
+		fontSize: 14,
+	},
+},
+".fieldLabel": {
+	height: 35,
+	right: 55,
+	left: 20,
+	backgroundColor: "#b8e7df",
+	color: "gray", 
+	textAlign: "center"
+},
+".infoLabelBold": {
+	left: 20,
+	font: {
+		fontSize: 18,
+	},
+},
+/*******************************************
+ **                Shadows                **
+ *******************************************/
+".fallingShadow":{
+	height: 5,
+	width: Titanium.UI.FILL,
+	backgroundGradient : {
+		type: "linear",
+		startPoint: {x: 0, y: 0},
+		endPoint: {x: 0, y: 5},
+		colors: [
+			{ color: '#737779', offset: 0.0}, 
+			{ color: 'transparent', offset: 1 }
+		]
+	}
+},
+".risingShadow":{
+	height: 3,
+	width: Titanium.UI.FILL,
+	backgroundGradient : {
+		type: "linear",
+		startPoint: {x: 0, y: 3},
+		endPoint: {x: 0, y: 0},
+		colors: [
+			{ color: '#dcdddd', offset: 0.0}, 
+			{ color: 'transparent', offset: 1 }
+		]
+	}
+},
+/*******************************************
+ **           Buttons & Switches          **
+ *******************************************/
+"Button":{
+	backgroundColor: 'transparent'
+},
+".blueButton": {
+	height: 40,
+	width: 140,
+	borderRadius: 5,
+	borderColor:'#102185',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: "0",
+		y: "40"
+	},
+	colors: [{ color: '#404D9D', offset: 0.5 }, { color: '#102185', offset: 0.5 } ]
+	}
+},
+".aquaButton": {
+	height: 40,
+	width: 140,
+	borderRadius: 5,
+	borderColor:'#007C5C',
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: "0",
+		y: "40"
+	},
+	colors: [{ color: '#33967D', offset: 0.5 }, { color: '#007C5C', offset: 0.5 } ]
+	}
+},
+".shinnyGrayButton": {
+	height: 35,
+	width: 35,
+	right: 20,
+	borderColor: "#cfcfcf",
+	backgroundGradient : {
+		type: "linear",
+		startPoint: {x: 20, y: 0},
+		endPoint: {x: 20, y: 35},
+		colors: [
+			{ color: '#dfdfdf', offset: 0.0}, 
+			{ color: 'white', offset: 0.5 },
+			{ color: '#dfdfdf', offset: 1 }
+		]
+	},
+},
+/*******************************************
+ **                 Lines                 **
+ *******************************************/
+".blueGradientLine": {
+	height:"1",
+	left: 10,
+	right: 10,
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: Alloy.Globals.platformWidth,
+		y: "0"
+	},
+	colors: [ { color: 'transparent', offset: 0.0}, { color: '#00007F', offset: 0.5 }, { color: 'transparent', offset: 1.0 } ]
+	}
+},
+".greenLine": {
+	height:"1",
+	backgroundColor: "#9ac6bd",
+},
+".greenGradientLine": {
+	height: 1,
+	width: Titanium.UI.FILL,
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+	},
+	endPoint: {
+		x: Alloy.Globals.platformWidth,
+		y: "0"
+	},
+	colors: [ { color: 'transparent', offset: 0.0}, { color: '#00a88a', offset: 0.5 }, { color: 'transparent', offset: 1.0 } ]
+	}
+},
+".blueLine": {
+	height:"1",
+	backgroundColor: "#00007F"
+},
+/*******************************************
+ **                Tables                 **
+ *******************************************/
+".darkRow": {
+	className: 'contactRow',
+	backgroundColor: "#d6ede9",
+	selectionStyle: "NONE",
+	touchEnabled: true,
+	//hasChild: true,
+	height: 35,
+	opacity: 0.7
+},
+".lightRow": {
+	className: 'contactRow',
+	backgroundColor: "#eaf6f4",
+	selectionStyle: "NONE",
+	touchEnabled: true,
+	//hasChild: true,
+	height: 35,
+	opacity: 0.7
+},
+/*******************************************
+ **               Receipts                **
+ *******************************************/
+// ".receiptTitle":{
+	// backgroundColor: "#81d4c6",
+	// left: 20,
+	// right: 20,
+	// height: 35,
+	// font : {
+		// fontSize: 18,
+		// fontWeight: "bold"
+	// },
+	// textAlign: "center"
+// },
+// ".receiptSeparator":{
+	// backgroundColor: "transparent",
+	// width: Ti.UI.FILL,
+	// height: 3
+// },
+// ".receiptContent":{
+	// height: "47%",
+	// left: 20,
+	// right: 20,
+// 	
+// },
+// ".receiptContentBackground":{
+	// backgroundColor : "#81d4c6",
+	// height: Ti.UI.FILL,
+	// width: Ti.UI.FILL,
+	// opacity : 0.4,
+// },
+// ".receiptContentInfo":{
+	// left: 10,
+	// right: 10,
+	// top: 10,
+	// height: Ti.UI.FILL,
+	// layout: "vertical",
+// },
+// 
+// ".receiptInfoList":{	
+	// top: 10,
+	// layout: "horizontal",
+	// width: 280,
+	// height: "35%"
+// },
+// ".receiptContentList":{
+	// // layout: "vertical",
+	// width: 100,
+	// height: Ti.UI.FILL,
+// },
+// 
+// ".receiptLabelPrimary":{
+	// right: 10,
+	// top: "5%",
+	// font : {
+		// fontSize: 15,
+		// fontWeight: "bold"
+	// }, 
+// },
+// ".receiptLabelSecondary":{
+	// left: 10,
+	// top: "5%",
+	// width: Ti.UI.FILL,
+	// font : {
+		// fontSize: 15
+	// },
+	// ellipsize : "true",
+// },
+// ".receiptAmountContainer":{
+	// left: 10,
+	// top: "5%",
+	// layout: "horizontal",
+	// width: Ti.UI.SIZE,
+	// height: Ti.UI.SIZE,
+// }
+// ".receiptIntegerPart":{
+	// font : {
+		// fontSize: 15
+	// }
+// },
+// ".receiptDecimalPart":{
+	// font:{
+		// fontFamily: 'Helvetica Neue',
+		// fontSize: 11
+	// }
+// },
+// ".receiptStatusTitle":{
+	// right: 218,
+	// top: "5%",
+	// font : {
+		// fontSize: 15,
+		// fontWeight: "bold"
+	// },
+// },
+// ".receiptStatusMessage":{
+	// width: Ti.UI.FILL,
+	// font : {
+		// fontSize: 17,
+// 		
+	// },
+	// textAlign : Ti.UI.TEXT_ALIGNMENT_CENTER,
+// },
+// ".blackBorder":{
+	// borderColor: "black",
+	// borderRadius: "1"
+// }
+// ".blueBorder":{
+	// borderColor: "blue",
+	// borderRadius: "1"
+// }
+// ".redBorder":{
+	// borderColor: "red",
+	// borderRadius: "1"
+// }
+
+
+
+/*******************************************
+ **                  iOS                  **
+ *******************************************/
+"Window[platform=ios]":{
+	orientationModes: [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT],
+	navBarHidden: true,
+	fullscreen: false,
+	backgroundColor: "#fff",
+	//image: "/images/background.png",
+},
+"#container[platform=ios]": {
+	width: Alloy.Globals.platformWidth,
+	top: 60,
+	bottom: 45,
+	fontFamily: 'Helvetica Neue',
+	font : {
+		fontSize: 18
+	},
+},
+".logoImg[platform=ios]": {
+	top: "5%",
+	left: "10%",
+	right: "10%"
+},
+".scrollContainerGradient": {
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+		},
+		endPoint: {
+			x: 0,
+			y: Alloy.Globals.platformHeight
+		},
+		colors: [ { color: 'white', offset: 0}, { color: '#A1C4BD', offset: 0.4 }, { color: '#A1C4BD', offset: 0.6 }, { color: 'white', offset: 0.8 } ],
+	},
+	opacity: 0.7,
+	height: Titanium.UI.FILL
+},
+".transactionContainerGradient": {
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+		},
+		endPoint: {
+			x: 0,
+			y: Alloy.Globals.platformHeight
+		},
+		colors: [ { color: 'white', offset: 0}, { color: '#A1C4BD', offset: 0.2 }, { color: '#A1C4BD', offset: 0.4 }, { color: 'white', offset: 0.6 } ],
+	},
+	opacity: 0.7,
+	height: Titanium.UI.FILL
+},
+".signUpContainerGradient": {
+	backgroundGradient: {
+		type: "linear",
+		startPoint: {
+			x: "0",
+			y: "0"
+		},
+		endPoint: {
+			x: 0,
+			y: Alloy.Globals.platformHeight
+		},
+		colors: [ { color: 'white', offset: 0.2}, { color: '#A1C4BD', offset: 0.4 }, { color: '#A1C4BD', offset: 0.6 }, { color: 'white', offset: 0.8 } ],
+	},
+	opacity: 0.7,
+	height: Titanium.UI.FILL
+},
+"#searchBar[platform=ios]": {
+	width: Ti.UI.FILL,
+	height: 60,
+	barColor: "#e6f6f3",
+}
+/*******************************************
+ **                Android                **
+ *******************************************/
+"Window[platform=android]":{
+	orientationModes: [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT],
+	navBarHidden: true,
+	fullscreen: false,
+	backgroundColor: "#fff",
+	windowSoftInputMode: Titanium.UI.Android.SOFT_INPUT_ADJUST_PAN,
+	//backgroundImage: "/images/background.png",
+},
+"#container[platform=android]": {
+	width: Alloy.Globals.platformWidth,
+	top: 45,
+	bottom: 45,
+	fontFamily: 'Helvetica Neue',
+	font : {
+		fontSize: 18
+	},
+},
+".logoImg[platform=android]": {
+	top: "2%",
+	left: "10%",
+	right: "10%"
+},
+// ".scrollContainerGradient[platform=android]": {
+	// backgroundGradient: {
+		// type: "linear",
+		// startPoint: {
+			// x: "0",
+			// y: "0"
+		// },
+		// endPoint: {
+			// x: 0,
+			// y: Alloy.Globals.platformHeight
+		// },
+		// colors: [ { color: 'white', offset: 0}, { color: '#9A91F2dd', offset: 0.3 }, { color: '#9A91F2dd', offset: 0.5 }, { color: 'white', offset: 0.8 } ],
+	// },
+	// opacity: 0.5,
+	// height: Titanium.UI.FILL
+// },
+"#searchBar[platform=android]": { 
+	left: 10,
+	right: 10,
+	height: 33,
+	borderRadius: 4,
+	backgroundColor: "#fff",
+	iconifiedByDefault: false,
+},
+".searchBarContainer[platform=android]": { 
+	width: Ti.UI.FILL,
+	height: 60,
+	backgroundColor: "#e6f6f3",
+}

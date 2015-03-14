@@ -1,0 +1,19 @@
+<Alloy>
+	<View>
+		<View id="pickerBg" />
+		<View id="pickerContainer">
+			<View class="toolbar">
+				<Button id="btnCancel" ></Button>
+				<Label id="title" ></Label>
+				<Button id="btnDone" ></Button>
+			</View>
+			<View id="searchBarContainer" >
+				<SearchView id="searchBar" ns="Ti.UI.Android" platform="android" />
+				<SearchBar id="searchBar" platform="ios" />
+			</View>
+			<View id="pickerView">
+				<ActivityIndicator id="activityIndicator" />
+			</View>
+		</View>
+	</View>
+</Alloy>

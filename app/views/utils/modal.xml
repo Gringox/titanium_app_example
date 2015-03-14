@@ -1,0 +1,7 @@
+<Alloy>
+	<View>
+		<View id="opacityBackground" />
+		<View id="modalContent">
+		</View>
+	</View>
+</Alloy>

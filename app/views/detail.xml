@@ -1,0 +1,9 @@
+<Alloy>
+	<Window>
+		<View id="detailContainer">
+			<Label id="name"/>
+			<ImageView id="image"/>
+			<Label id="description"/>
+		</View>
+	</Window>
+</Alloy>

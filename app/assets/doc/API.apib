@@ -1,0 +1,1764 @@
+FORMAT: 1A
+
+#DEBIPHONE API SPECIFICATION
+
+# Group HTTP status code catalog
+
+### 2xx Success
+------
+**200  OK**
+
+*Successful HTTP request.*
+  
+### 4xx Client Error  	
+------
+    	
+**400  Bad request**
+
+*Syntax error. Subsequent requests by the client are permissible.*
+
+**401  Unauthorized**
+
+*But specifically for use when authentication is required and has failed. Subsequent requests by the client are permissible.*
+
+**403 Forbidden**
+
+*The request was a valid request, but the server is refusing to respond to it.*
+    	
+**404  Not found**
+
+*The requested resource could not be found. Subsequent requests by the client are permissible.*
+
+**412  Precondition failed**
+
+*The server does not meet one or more of the preconditions that the requester put on the request. Subsequent requests by the client are permissible.*
+
+**498  Token expired/invalid**
+
+*Indicates an expired or otherwise invalid token*
+
+### 5xx Server Error
+------
+	
+**500  Internal Server Error**
+
+*A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.*
+
+# Group Parameters catalog
+
+### User
+------
+
+**status parameter**
+*It specifies the status of a user. Possible values for the parameter:*
+* status = 1, the user was confirmed
+* status = 2, the user has not been confirmed yet
+* status = 3, the user is inactive
+
+**userType parameter**
+*Determines the type of a given user. Possible values for the parameter:*
+* userType = 1, personal
+* userType = 2, commercial
+
+**disableApp parameter**
+*Disable application when receiving a transaction*
+* disableApp = 1, disable the application
+* disableApp = 0, do not disable the application
+
+### Transaction
+------
+
+**type parameter**
+*It specifies whether a transaction is a transfer or a charge. Possible values for the parameter:*
+* type = 1, the transaction is a transfer
+* type = 2, the transaction is a charge
+
+**status parameter**
+*It specifies the status of a transaction. Possible values for the parameter:*
+* status = 1, the transaction was approved
+* status = 2, the stransaction was rejected
+* status = 3, the transaction is pending
+
+### Message
+------
+
+**read parameter**
+*It specifies whether a message was read or not. Possible values for the parameter:*
+* read = 1, the message was read
+* read = 0, the message has not been read yet
+
+### Searches
+------
+
+**filter parameter**
+*Select an option from the ones displayed in the transaction list. Possible values for the parameter:*
+* filter = 1, month transactions
+* filter = 2, day transactions
+* filter = 3, last 10 transactions
+
+# Group User
+
+## Register [/api/v1/user/new]
+### User registration [POST]
++ Request (application/json)
+
+    	{
+    		firstname: 'John', 
+    		lastName: 'Doe', 
+    		mobileNumber: '+584122879895',
+    		username: 'johndoe01',
+    		password: 'sjdh7847wherbfh',
+    		confirmPassword: 'sjdh7847wherbfh',
+    		memorableWord: 'myMemorableWord'
+    	}
+    	
++ Response 200 (application/json)
+
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body 
+	
+			{
+				firstname: 'John',
+				lastname: 'Doe',
+				userType: 1
+			}
+
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+
++ Response 401 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: {
+					'Username already exists',
+					'Mobile number already exists'
+				}
+			}
+
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Password does not match its confirmation'
+			}
+
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Resend SMS [/api/v1/user/resendSMS]
+### Resend SMS with the validation code [POST]
++ Request (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				mobilePhone: '+584122879895'
+			}
+
++ Response 200 (application/json)
+		
++ Response 400 (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 500 (application/json)
+
+		{
+			error: 'Internal server error'
+		}
+
+## Validate Registration code [/api/v1/user/validateCode]
+### Validate Registration code [POST]
++ Request (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+			
+	+ Body
+
+		    {
+		    	code: 123456
+		    }
+
++ Response 200 (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+
++ Response 401 (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				error: 'The inseted code is incorrect.'
+			}
+			
++ Response 500 (application/json)
+
+	+ Headers
+			
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Login [/api/v1/user/login]
+### User login [POST]
++ Request (application/json)
+
+	    {
+	    	username: 'johndoe01',
+	    	password: 'sjdh7847wherbfh'
+	    }
+	    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body 
+	
+			{
+				firstname: 'John',
+				lastname: 'Doe',
+				userType: 1
+			}
+		
++ Response 401 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body 
+	
+			{
+				error: 'The username or password is invalid.'
+			}
+			
++ Response 403 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body 
+
+			{
+				error: 'The user has not been verified.'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body 
+
+			{
+				error: 'Internal server error'
+			}
+
+## Recover password [/api/v1/user/resetPassword]
+### Recover password [POST]
++ Request (application/json)
+
+	+ Body
+	
+		    { 
+		    	memorableWord: 'myMemorableWord',
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Body 
+
+			{
+				message: 'Instructions in order to recover your memorable word were sent, please check your email'
+			}
+		
++ Response 401 (application/json)
+
+	+ Body 
+	
+			{
+				error: 'The memorable word is incorrect, please check your mail'
+			}
+		
++ Response 500 (application/json)
+
+	+ Body 
+
+			{
+				error: 'Internal server error'
+			}
+
+## Balance [/api/v1/user/balance]
+### Get balance [GET]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body 
+	
+			{
+				balance: 15000
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body 
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body 
+	
+			{
+				error: 'Internal server error'
+			}
+
+## User General Configurations [/api/v1/user/configurations]
+### Get general configurations [GET]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				username: 'johndoe01',
+				firstname: 'John',
+				lastname: 'Doe',
+				identificationNum: '10987654',
+				email: 'johndoe01@gmail.com',
+				address: '1st Street.',
+				userType: 1,
+				appearBy: 'Username',
+				dailyChargeLimit: 50,
+				dailyLimit: 1500,
+				bankAcount: 'CityBank',
+				automaticLogout: '3min', 
+				disableApp: true
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+### Edit general configurations [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				username: 'johndoe01',
+				firstname: 'John',
+				lastname: 'Doe',
+				identificationNum: '10987654',
+				email: 'johndoe01@gmail.com',
+				address: '1st Street.',
+				userType: 1,
+				appearBy: 'Username',
+				dailyChargeLimit: 50,
+				dailyLimit: 1500,
+				bankAcount: 'CityBank',
+				automaticLogout: '3min', 
+				disableApp: true
+			}
+		    
++ Response 200 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+
++ Response 400 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+
++ Response 498 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Mobile Phone Configurations [/api/v1/user/configurations/editMobilePhone]
+### Edit mobile phone configuration [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+		    	mobileNumber: '+584122879895',
+		    	pin: 123456
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+		
++ Response 400 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 401 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'PIN is not valid'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Memorable Word Phone Configurations [/api/v1/user/configurations/editMemorableWord]
+### Edit memorable word configuration [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+		    	memorableWord: 'myMemorableWord',
+		    	pin: 123456
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+		
++ Response 400 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 401 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'PIN is not valid'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+		
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## User Green Code Configurations [/api/v1/user/configurations/greenCode]
+### Edit green code [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	currentGreenCode: 123456,
+		    	newGreenCode: 567890,
+		    	repeatGreenCode: 567890
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+				
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 401 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'PIN is not valid'
+			}
+		
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'Green code does not match its confirmation'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+## User Red Code Configurations [/api/v1/user/configurations/redCode]
+### Edit red code [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	currentRedCode: 123456,
+		    	newRedCode: 567890,
+		    	repeatRedCode: 567890
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+				
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 401 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'PIN is not valid'
+			}		
+		
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'Red code does not match its confirmation'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+## User Balance Percentage Configuration [/api/v1/user/configurations/balancePercentage]
+### Configure balance percentage [PUT]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	percentage: 10
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+			
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## User Summary [/api/v1/user/summary?filter=1]
+### Get user summary [GET]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+			
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+# Group Transactions
+
+## Transaction list [/api/v1/transactions?filter=1]
+### List all transactions [GET]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+
+			[
+				{amount: 10, id: 10, transactionNum: 1, type: 1, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 15, id: 11, transactionNum: 2, type: 1, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 20, id: 12, transactionNum: 3, type: 2, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 25, id: 13, transactionNum: 4, type: 1, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 30, id: 14, transactionNum: 5, type: 2, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 35, id: 15, transactionNum: 6, type: 1, currencyAcronym: '$', date: 10-12-2014}
+			]
+		
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+		
+	+ Body
+
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+		
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+## New Transfer Transaction [/api/v1/transaction/transfer/new]
+### Execute New transference [POST]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	amount: 1500,
+		    	recipient: '+584122879895',
+		    	pin: 'jsbdiys79w87',
+		    	description: , 'Description message',
+		    	currencyAcronym: '$',
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+		    	amount: 1500,
+		    	recipient: {
+		    		appearBy: 'John Doe',
+		    		mobileNumber: '+584122879895'
+		    	}
+		    	description: , 'Description message',
+		    	currencyAcronym: '$',
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+		    }
+		
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+
++ Response 401 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'PIN is not valid'
+			}
+		
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'You do not have enough credit to transfer'
+			}
+				
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## New Charge Transaction [/api/v1/transaction/charge/new]
+### Execute New charge [POST]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	amount: 1500,
+		    	recipient: '+584122879895',
+		    	description: , 'Description message',
+		    	currencyAcronym: '$',
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+		    	amount: 1500,
+		    	recipient: {
+		    		appearBy: 'John Doe',
+		    		mobileNumber: '+584122879895'
+		    	}
+		    	description: , 'Description message',
+		    	currencyAcronym: '$',
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+		    }
+
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+				
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: {
+					'You have exeeded your charge limits',
+					'Recipient <recipient> is not a Debiphone user'
+				}
+			}
+				
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Validate Transaction [/api/v1/transaction/validate]
+### Validate transaction parameters [POST]
++ Request (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+		    { 
+		    	type: 1
+		    	amount: 1500,
+		    	recipient: {
+		    		appearBy: 'John Doe',
+		    		mobileNumber: '+584122879895'
+		    	}
+		    	description: , 'Description message',
+		    	currencyAcronym: '$'
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				exists: 1,
+				recipient: {
+		    		appearBy: 'John Doe',
+		    		mobileNumber: '+584122879895'
+		    	}
+			}
+
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+	
++ Response 412 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+	
+	+ Body
+	
+			{
+				error: {
+					'You have exeeded your charge limits',
+					'Recipient <recipient> is not a Debiphone user'
+				}
+			}
+				
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Process Transaction [/api/v1/transactions/process]
+### process transaction [PUT]
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+
+	+ Body
+	
+		    {
+		    	proccessAction: 1,
+		    	type: 2
+		    }
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+## Transaction Details [/api/v1/transaction/{transactionId}]
+### process transaction [GET]
++ Parameters
+	+ transactionId (required, number, `1`) ... message identifier
+
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+		    
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				type: 1,
+				from: {
+					appearBy: 'Jane Doe',
+					mobilePhone: '+584123567890'
+				},
+				amount: 1500,
+				currency: '$',
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+				description: 'Description message',
+				status: 2
+			}
+		
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+
+			{
+				error: 'Invalid transaction'
+			}
+	
+		
++ Response 404 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+
+			{
+				error: 'You do not have access to this transaction'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+## Contact transaction list [/api/v1/transaction/contact/{contactId}]
+### List all contact transactions [GET]
++ Parameters
+	+ contactId (required, number, `1`) ... contact identifier
+		
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+	
+	+ Body
+	
+			[
+				{amount: 10, id: 12, transactionNum: 1, type: 1, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 10, id: 17, transactionNum: 2, type: 1, currencyAcronym: '$', date: 10-12-2014},
+				{amount: 10, id: 20, transactionNum: 3, type: 2, currencyAcronym: '$',currencyAcronym0-12-2014},
+			]
+		
++ Response 404 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
+	+ Body
+
+			{
+				error: 'The contact <contact> does not exist'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Internal server error'
+			}
+
+# Group Messages
+
+## Messages [/api/v1/messages?hint=1]
+### List all transaction messages [GET]
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+			
+	+ Body
+
+			{
+				newMessageCount: 2,
+				messages: [
+					{read: 1, amount: 10, id: 10, transactionNum: 1, type: 2, currencyAcronym: '$', description: 'Description message', date: 10-10-2014},
+					{read: 0, amount: 15, id: 12, transactionNum: 2, type: 1, currencyAcronym: '$', description: 'Description message', date: 10-10-2014},
+					{read: 1, amount: 20, id: 13, transactionNum: 3, type: 2, currencyAcronym: '$', description: 'Description message', date: 10-10-2014},
+					{read: 0, amount: 25, id: 14, transactionNum: 4, type: 1, currencyAcronym: '$', description: 'Description message', date: 10-10-2014},
+					{read: 0, amount: 30, id: 15, transactionNum: 5, type: 2, currencyAcronym: '$', description: 'Description message', date: 10-10-2014},
+					{read: 0, amount: 35, id: 16, transactionNum: 6, type: 1, currencyAcronym: '$', description: 'Description message', date: 10-10-2014}
+				]
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Message Details [/api/v1/message/{messageId}]
+### Details of a transaction messages [GET]
++ Parameters
+	+ messageId (required, number, `1`) ... message identifier
+		
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				read: 1, 
+				amount: 10, 
+				id: 10, 
+				transactionNum: 1, 
+				type: 2, 
+				currencyAcronym: '$', 
+				description: 'Description message', 
+		    	date: '10-10-2014',
+		    	hour: '10:10'
+				status: 1
+			}
+
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'Syntax error'
+			}
+		
++ Response 404 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: token
+
+	+ Body
+	
+			{
+				error: 'You do not have access to this message'
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+# Group Contacts
+
+## Favorite List [/api/v1/contact/favorites]
+### List all favorite contacts [GET]
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
+	+ Body
+
+			[
+				{id: 35, contactNum: 10, appearBy: 'John Doe', mobileNumber: '+584122998754'},
+				{id: 10, contactNum: 21, appearBy: 'Jane Doe', mobileNumber: '+1678567890'}
+			]
+		
++ Response 498 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+
+	+ Body 
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+
+	+ Body 
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Contact Detail [/api/v1/contact/{phoneNumber}]
+### Contact Detail [GET]
++ Parameters
+	+ phoneNumber (required, number, `+584122879895`) ... contact phone number
+	
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+		
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				{
+					contact: {
+						id: 1,
+						appearBy: 'John Doe',
+						mobileNumber: '+1678567890' 
+					}
+				}
+			}
+			
++ Response 400 (application/json)
+
+	+ Headers
+	
+			debiphoneToken: null
+			
+	+ Body
+
+			{
+				error: 'Syntax error'
+			}
+				
++ Response 498 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}
+
+## Add/Delete favorite from favorites [/api/v1/contact/favorite/new/{contactId}]
+### Contact Detail [GET]
++ Parameters
+	+ contactId (required, number, `1`) ... contact identifier
+	
++ Request (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+		
++ Response 200 (application/json)
+
+	+ Headers
+
+			debiphoneToken: token
+			
+	+ Body
+	
+			{
+				contact: {
+						id: 1,
+						appearBy: 'John Doe',
+						mobileNumber: '+1678567890' 
+					}
+			}
+		
++ Response 498 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Token expired/invalid'
+			}
+		
++ Response 500 (application/json)
+
+	+ Headers
+
+			debiphoneToken: null
+	
+	+ Body
+	
+			{
+				error: 'Internal server error'
+			}

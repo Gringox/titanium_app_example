@@ -1,0 +1,5 @@
+
+"#detailContainer": {
+	top: 15,
+	layout: "vertical"
+}
