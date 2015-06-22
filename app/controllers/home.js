@@ -65,10 +65,8 @@ var controller = {
 			});
 			
 			var rowColumn1 = Ti.UI.createImageView({
-				top: 10,
-				bottom: 10,
 				left: "2%",
-			   	width: "20%",
+			   	//width: "20%",
 				height: 100,
 				image: Alloy.Globals.appAPIServer + "/" + (item.id%10).toString() + ".png",
 				touchEnabled: false
