@@ -14,8 +14,16 @@ var controller = {
     	controller.loadData();
     },
     
+    removeAllChildren : function(obj) {
+	    var c = obj.children.slice(0);
+	    for (var i = 0; i < c.length; ++i) {
+	        obj.remove(c[i]);
+	    }
+    },
+    
     cleanTable : function() {
-    	$.tableContainer.removeAllChildren();
+    	// $.tableContainer.removeAllChildren();
+    	controller.removeAllChildren($.tableContainer);
        	var style;
        	if (OS_IOS) {
 			style = Ti.UI.iPhone.ActivityIndicatorStyle.DARK;

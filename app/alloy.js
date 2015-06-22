@@ -15,7 +15,11 @@
 /*******************************************
  **                Servers                **
  *******************************************/
-Alloy.Globals.appAPIServer = 'http://localhost:4567';
+if (OS_ANDROID) {
+	Alloy.Globals.appAPIServer = 'http://192.168.1.106:4567';
+}else{
+  	Alloy.Globals.appAPIServer = 'http://localhost:4567';
+}
 
 
 /*******************************************

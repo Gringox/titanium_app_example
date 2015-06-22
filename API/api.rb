@@ -5,6 +5,8 @@ require './models/app'
 
 set :database, {adapter: "sqlite3", database: "foo.sqlite3"}
 
+set :bind, '0.0.0.0'
+
 set :public_folder, './images'
 
 before do
@@ -61,7 +63,7 @@ put '/apps/:id' do |id|
       else
         status 409
         {error: "409 Conflict"}.to_json
-      end 
+      end
     else
       halt 404
     end
